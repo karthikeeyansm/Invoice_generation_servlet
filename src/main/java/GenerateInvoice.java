@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -44,7 +45,11 @@ public class GenerateInvoice extends HttpServlet {
             products.put(Integer.parseInt(product),products_json.get(product).getAsInt());
         }
 
-        InvoiceHelperDb.createInvoice(user_id,products);
+        int invoice_id = InvoiceHelperDb.createInvoice(user_id,products);
+
+        PrintWriter out = resp.getWriter();
+
+        out.println("invoice generated successfully with id as "+invoice_id);
 
     }
 

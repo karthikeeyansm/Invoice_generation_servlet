@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InvoiceHelperDb {
-    public static void createInvoice(int user_id, HashMap<Integer,Integer> products){
+    public static int createInvoice(int user_id, HashMap<Integer,Integer> products){
+
+        int invoice_id = -1;
 
         try(Connection db = Database.openConnection();){
 
@@ -27,7 +29,7 @@ public class InvoiceHelperDb {
 
                 ResultSet keySet = statement.getGeneratedKeys();
                 keySet.next();
-                int invoice_id = keySet.getInt(1);
+                invoice_id = keySet.getInt(1);
 
                 statement = db.prepareStatement(
                         "INSERT INTO public.invoice_items_list (invoice_id,product_id,rate,quantity,total_amt) " +
@@ -72,6 +74,8 @@ public class InvoiceHelperDb {
         }catch (Exception e){
             System.out.println(e);
         }
+
+        return invoice_id;
     }
 
     public static ArrayList<Invoice> getRecentInvoices(int user_id){
