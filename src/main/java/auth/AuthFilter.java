@@ -17,7 +17,9 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        int user_id = Integer.parseInt(servletRequest.getParameter("user_id"));
+//        int user_id = Integer.parseInt(servletRequest.getParameter("user_id"));
+
+        String user_id = servletRequest.getParameter("user_id");
 
         if(UserHelperDb.checkUser(user_id))
             filterChain.doFilter(servletRequest,servletResponse);
